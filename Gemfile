@@ -6,5 +6,5 @@ gem 'mongo', '~>2.1'
 gem 'bson_ext'#, '~>3.0'
 gem 'em-http-request'
 gem 'json'
-gem 'twitter'
+gem 'tweetstream'
 gem "bson"

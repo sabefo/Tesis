@@ -30,27 +30,35 @@ filters = ["peso mexicano", "dolar", "devaluacion del peso", "yuan",
 ids = ["2935268052", "26538229", "83060037", "147446462", "209649640", 
     "119051398", "14917589", "38227815"]
 
+themes = topics + ids
+
 get "/" do
 
 end
 
+twitter = TweetStream::Client.new
+
 EM.run {
-  TWITTER.filter(track: topics.join(","), follow: ids.join(",")) do  |object|
-    puts "-" * 127
-    puts
-    puts "Entramos al twitter"
-    puts
-    puts "-" * 127
+  puts "entramos al event machine"
+  twitter.filter({:track => themes}) do |object|
     tweet = object.text.removeaccents
     filters.each do  |filter|
       if tweet.include?(filter)
-        puts "-" * 127
-        puts "metimos el tweet"
         result = client[:tesis].insert_one(object.attrs)
+        puts "LISTO!!!!"
       end
     end
   end
 }
+
+  # TWITTER.filter(track: topics.join(","), follow: ids.join(",")) do  |object|
+  #   tweet = object.text.removeaccents
+  #   filters.each do  |filter|
+  #     if tweet.include?(filter)
+  #       result = client[:tesis].insert_one(object.attrs)
+  #     end
+  #   end
+  # end
 
 # EM.schedule do
   # http = EM::HttpRequest.new(STREAMING_URL).get :head => { 'Authorization' => [ TWITTER_USERNAME, TWITTER_PASSWORD ] }
