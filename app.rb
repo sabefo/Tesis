@@ -41,10 +41,10 @@ end
 
 
 EM.run {
-  puts "entramos al event machine"
   puts "_" * 100
   puts "twitter es: #{twitter}"
   puts "_" * 100
+  puts "entramos al event machine".upcase
   twitter.filter({:track => themes}) do |object|
     tweet = object.text.removeaccents
     filters.each do  |filter|
